@@ -13,3 +13,14 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+// Want to add Title? Keep it simple, make this a create route
+router.put('/', async (req, res, next) => {
+  try {
+    const graph = await Graph.create()
+    console.log('THE NEW GRAPH:', graph)
+    res.json(graph)
+  } catch (err) {
+    next(err)
+  }
+})
