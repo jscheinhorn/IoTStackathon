@@ -5,26 +5,26 @@ import {getDataThunk, addChartThunk} from '../store'
 import {Bar, Line, Pie} from 'react-chartjs-2'
 import {throws} from 'assert'
 
-class GraphComponent extends React.Component {
+class ChartComponent extends React.Component {
   constructor() {
     super()
     this.state = {
-      renderGraph: false
+      renderChart: false
     }
   }
 
   handleClick = event => {
     console.log('New Graph')
-    if (!this.state.renderGraph) {
+    if (!this.state.renderChart) {
       this.props.addChart()
     }
     this.setState({
-      renderGraph: true
+      renderChart: true
     })
   }
 
   render() {
-    if (this.state.renderGraph) {
+    if (this.state.renderChart) {
       // This continuously gets data if placed in render
       // console.log(this.props.ip)
       // this.props.dataThunk(this.props.ip)
@@ -34,9 +34,9 @@ class GraphComponent extends React.Component {
       <div>
         <h1>This Old Chart</h1>
         <button type="button" onClick={this.handleClick}>
-          New Graph
+          New Chart
         </button>
-        {this.state.renderGraph ? <Bar data={this.props.chart} /> : null}
+        {this.state.renderChart ? <Bar data={this.props.chart} /> : null}
       </div>
     )
   }
@@ -54,6 +54,6 @@ const mapDispatchToProps = dispatch => ({
   addChart: () => dispatch(addChartThunk())
 })
 
-const Graph = connect(mapStateToProps, mapDispatchToProps)(GraphComponent)
+const Chart = connect(mapStateToProps, mapDispatchToProps)(ChartComponent)
 
-export default Graph
+export default Chart

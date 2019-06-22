@@ -4,7 +4,7 @@ import Axios from 'axios'
  * ACTION TYPES
  */
 const GET_CHART = 'GET_CHART'
-const ADD_CHART = 'ADD_CHART'
+// const ADD_CHART = 'ADD_CHART'
 
 /**
  * INITIAL STATE
@@ -32,6 +32,7 @@ export const getChartThunk = id => async dispatch => {
 export const addChartThunk = () => async dispatch => {
   try {
     const chart = await Axios.put('/api/chart')
+    console.log(chart)
     dispatch(getChart(chart))
   } catch (err) {
     console.error(err)
