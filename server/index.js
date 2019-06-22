@@ -99,9 +99,14 @@ const startListening = () => {
   const server = app.listen(PORT, () =>
     console.log(`Mixing it up on port ${PORT}`)
   )
+  // QUESTIONS
+  // DO I MAKE A SEPARATE serverIot = app.listen(DEVICE PORT, DEVICE'S IP ADDRESS)
 
   // set up our socket control center
   const io = socketio(server)
+  // QUESTION
+  // DO I NEED THE BELLOW
+  // const iotSocket = socketio.listen(THE DEVICE'S IP)
   require('./socket')(io)
 }
 
