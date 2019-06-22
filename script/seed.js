@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Data, Graph} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -14,6 +14,19 @@ async function seed() {
   ])
 
   console.log(`seeded ${users.length} users`)
+
+  const data = await Promise.all([
+    Data.create({x: 1, y: 2, z: 3}),
+    Data.create({x: 4, y: 5, z: 6}),
+    Data.create({x: 7, y: 8, z: 9})
+  ])
+
+  console.log(`seeded ${data.length} data points`)
+
+  const graph = await Promise.all([Graph.create({title: 'This graph'})])
+
+  console.log(`seeded ${graph.length} graphs`)
+
   console.log(`seeded successfully`)
 }
 
