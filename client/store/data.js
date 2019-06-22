@@ -1,6 +1,3 @@
-import axios from 'axios'
-import history from '../history'
-
 /**
  * ACTION TYPES
  */
@@ -19,9 +16,9 @@ const getData = data => ({type: GET_DATA, data})
 /**
  * THUNK CREATORS
  */
-export const getDataThunk = () => async dispatch => {
+export const getDataThunk = ip => async dispatch => {
   try {
-    const data = await fetch('http://esp8266.local')
+    const data = await fetch(`http://${ip}`)
     dispatch(getData((await data.json()) || defaultData))
   } catch (err) {
     console.error(err)
