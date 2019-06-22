@@ -8,14 +8,32 @@ import {throws} from 'assert'
 class GraphComponent extends React.Component {
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      renderGraph: false
+    }
+  }
+
+  handleClick = event => {
+    this.setState({
+      renderGraph: true
+    })
+    console.log('New Graph')
+    // This continuously gets data
+    if (this.props.ip) {
+      console.log(this.props.ip)
+      this.props.dataThunk(this.props.ip)
+      console.log(this.props.data)
+    }
   }
 
   render() {
     return (
       <div>
         <h1>This Old Chart</h1>
-        <Bar data={this.props.chart} />
+        <button type="button" onClick={this.handleClick}>
+          New Graph
+        </button>
+        {this.state.renderGraph ? <Bar data={this.props.chart} /> : null}
       </div>
     )
   }
@@ -23,11 +41,13 @@ class GraphComponent extends React.Component {
 
 const mapStateToProps = state => ({
   // data: state.data
-  chart: state.data
+  chart: state.chart,
+  ip: state.ip,
+  data: state.data
 })
 
 const mapDispatchToProps = dispatch => ({
-  dataThunk: () => dispatch(getDataThunk())
+  dataThunk: ip => dispatch(getDataThunk(ip))
 })
 
 const Graph = connect(mapStateToProps, mapDispatchToProps)(GraphComponent)

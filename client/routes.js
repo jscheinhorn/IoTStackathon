@@ -16,10 +16,6 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn} = this.props
-    // if (this.props.ip) {
-    //   this.props.dataThunk(this.props.ip)
-    //   console.log(this.props.data)
-    // }
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
