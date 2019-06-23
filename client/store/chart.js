@@ -39,7 +39,7 @@ export const addChartThunk = () => async dispatch => {
   }
 }
 
-// MIGRATING THIS TO store/data.js SO UPDATES TO GRAPH AREN'T WITHOUT DATA
+// MIGRATING THIS TO store/data.js SO UPDATES TO GRAPH AREN'T WITHOUT DATA, DEPRECATED!
 export const addDataThunk = (data, id) => async dispatch => {
   console.log('DATA COMING IN TO ADD_DATA', data)
   try {

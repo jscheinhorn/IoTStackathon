@@ -22,7 +22,6 @@ export const getDataThunk = (ip, chartId) => async dispatch => {
     let data = await fetch(`http://${ip}`)
     data = await data.json()
     const chart = await Axios.put(`/api/chart/${chartId}`, data)
-    console.log({data, chart})
     data = {data, chart}
     dispatch(getData(data || defaultData))
     // dispatch(getChart(chart))
@@ -37,9 +36,6 @@ export const getDataThunk = (ip, chartId) => async dispatch => {
 export default function(state = defaultData, action) {
   switch (action.type) {
     case GET_DATA:
-      console.log({action})
-      console.log('data', action.data)
-      // console.log('chart', action.chart)
       return {
         ...state,
         x: action.data.data.x,
