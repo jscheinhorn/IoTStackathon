@@ -13,8 +13,8 @@ class ChartComponent extends React.Component {
       labels: [],
       datasets: [
         {label: 'x', data: [], fill: false, borderColor: '#6610f2'},
-        {label: 'y', data: [], fill: false, borderColor: '#E0E0E0'},
-        {label: 'z', data: [], fill: false, borderColor: '#E0E0E0'}
+        {label: 'y', data: [], fill: false, borderColor: '#6610f2'},
+        {label: 'z', data: [], fill: false, borderColor: '#6610f2'}
       ]
     }
   }
@@ -62,17 +62,16 @@ class ChartComponent extends React.Component {
           el.data.push(this.props.data.x)
           break
         case 'y':
-          el.data.push(this.props.data.x)
+          el.data.push(this.props.data.y)
           break
         case 'z':
-          el.data.push(this.props.data.x)
+          el.data.push(this.props.data.z)
           break
         default:
           console.log("How'd I get here?")
       }
     })
     this.chart.update()
-    console.log('chart', this.chart)
   }
 
   initializeChart(options) {
@@ -83,6 +82,7 @@ class ChartComponent extends React.Component {
   startRecording = () => {
     // eslint-disable-next-line react/no-access-state-in-setstate
     this.setState({record: !this.state.record})
+    console.log('chart:', this.chart)
   }
 
   render() {
