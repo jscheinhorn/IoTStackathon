@@ -8,15 +8,34 @@ class ChartComponent extends React.Component {
   constructor(props) {
     super(props)
     this.chartRef = React.createRef()
-    this.state = {renderChart: false, record: false}
+    this.state = {renderChart: false, record: false, time: 0}
     this.data = {
       labels: [],
       datasets: [
-        {label: 'x', data: [], fill: false, borderColor: '#6610f2'},
-        {label: 'y', data: [], fill: false, borderColor: '#6610f2'},
-        {label: 'z', data: [], fill: false, borderColor: '#6610f2'}
+        {
+          label: 'x',
+          data: [],
+          fill: true,
+          backgroundColor: 'rgba(255, 0, 255, 0.75)',
+          borderColor: '#6610f2'
+        },
+        {
+          label: 'y',
+          data: [],
+          fill: true,
+          backgroundColor: 'rgba(0, 255, 0, 0.75)',
+          borderColor: 'rgb(34,139,34)'
+        },
+        {
+          label: 'z',
+          data: [],
+          fill: true,
+          backgroundColor: 'rgba(0, 0, 255, 0.75)',
+          borderColor: 'rgba(255, 0, 255, 0.75)'
+        }
       ]
     }
+    this.time = Date.now()
   }
 
   chart = {}
@@ -25,28 +44,50 @@ class ChartComponent extends React.Component {
     this.props.addChart()
     this.initializeChart({
       data: this.data,
+      options: {
+        title: {
+          display: true,
+          text: 'Acceleration Data',
+          fontSize: 25
+        },
+        legend: {
+          labels: {
+            fontSize: 16
+          },
+          position: 'bottom'
+        },
+        scales: {
+          xAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: 'Time (milliseconds)',
+                fontSize: 20
+              },
+              ticks: {
+                beginAtZero: true,
+                fontSize: 20
+              }
+            }
+          ],
+          yAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: 'Acceleration (gravity)',
+                fontSize: 20
+              },
+              ticks: {
+                beginAtZero: true,
+                fontSize: 20
+              }
+            }
+          ]
+        }
+      },
       responsive: true,
       // maintainAspectRatio: false,
       type: 'line',
-      scales: {
-        xAxes: [
-          {
-            type: 'time',
-            time: {
-              displayFormats: {
-                millisecond: 'mm:ss:SSS'
-              }
-            }
-          }
-        ],
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true
-            }
-          }
-        ]
-      },
       legend: {display: false},
       tooltips: {
         enabled: false
@@ -55,7 +96,7 @@ class ChartComponent extends React.Component {
   }
 
   componentDidUpdate = () => {
-    this.data.labels.push(new Date())
+    this.data.labels.push(Date.now() - this.time)
     this.data.datasets.forEach(el => {
       switch (el.label) {
         case 'x':
@@ -83,6 +124,7 @@ class ChartComponent extends React.Component {
     // eslint-disable-next-line react/no-access-state-in-setstate
     this.setState({record: !this.state.record})
     console.log('chart:', this.chart)
+    // this.time = Date.now()
   }
 
   render() {
