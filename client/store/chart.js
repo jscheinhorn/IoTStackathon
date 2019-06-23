@@ -5,6 +5,7 @@ import Axios from 'axios'
  */
 const GET_CHART = 'GET_CHART'
 // const ADD_CHART = 'ADD_CHART'
+// const ADD_DATA = 'ADD_DATA'
 
 /**
  * INITIAL STATE
@@ -32,7 +33,17 @@ export const getChartThunk = id => async dispatch => {
 export const addChartThunk = () => async dispatch => {
   try {
     const chart = await Axios.put('/api/chart')
-    console.log(chart)
+    dispatch(getChart(chart))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// MIGRATING THIS TO store/data.js SO UPDATES TO GRAPH AREN'T WITHOUT DATA
+export const addDataThunk = (data, id) => async dispatch => {
+  console.log('DATA COMING IN TO ADD_DATA', data)
+  try {
+    const chart = await Axios.put(`/api/chart/${id}`, data)
     dispatch(getChart(chart))
   } catch (err) {
     console.error(err)

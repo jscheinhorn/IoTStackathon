@@ -16,7 +16,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     const graph = await Graph.findOne({
       where: {id: id},
-      include: [{model: Data, required: true}]
+      include: [{model: Data}]
     })
     res.json(graph)
   } catch (err) {
@@ -30,13 +30,26 @@ router.put('/', async (req, res, next) => {
     const graph = await Graph.create(
       {title: 'New Graph'},
       {
-        include: [{model: Data, required: true}]
+        include: [{model: Data}]
       }
     )
     // const graph = await Graph.findByPk(data.id, {
     //   include: [{model: Data, required: true}]
     // })
-    console.log('THE NEW GRAPH:', graph)
+    res.json(graph)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:id', async (req, res, next) => {
+  const graphId = req.params.id
+  const {x, y, z} = req.body
+  try {
+    await Data.create({graphId, x, y, z})
+    const graph = await Graph.findByPk(graphId, {
+      include: [{model: Data, required: true}]
+    })
     res.json(graph)
   } catch (err) {
     next(err)
