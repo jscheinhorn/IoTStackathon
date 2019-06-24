@@ -24,7 +24,6 @@ export const getDataThunk = (ip, chartId) => async dispatch => {
     const chart = await Axios.put(`/api/chart/${chartId}`, data)
     data = {data, chart}
     dispatch(getData(data || defaultData))
-    // dispatch(getChart(chart))
   } catch (err) {
     console.error(err)
   }

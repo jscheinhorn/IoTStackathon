@@ -1,5 +1,4 @@
 import React from 'react'
-// import {Chart as Graph} from 'react-chartjs-2'
 import {Chart as Graph} from 'chart.js'
 import {connect} from 'react-redux'
 import {getDataThunk, addChartThunk} from '../store'
@@ -8,7 +7,7 @@ class ChartComponent extends React.Component {
   constructor(props) {
     super(props)
     this.chartRef = React.createRef()
-    this.state = {renderChart: false, record: false, time: 0}
+    this.state = {record: false}
     this.data = {
       labels: [],
       datasets: [
