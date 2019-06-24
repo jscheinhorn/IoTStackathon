@@ -379,7 +379,7 @@ class ChartComponent extends React.Component {
         }
       },
       responsive: true,
-      // maintainAspectRatio: false,
+      maintainAspectRatio: false,
       type: 'line',
       legend: {display: false},
       tooltips: {
@@ -424,10 +424,15 @@ class ChartComponent extends React.Component {
     if (this.state.record) {
       this.props.getData(this.props.ip, this.props.chart.data.id)
     }
+    const divStyle = {position: 'relative', height: '50px', width: '50px'}
+    this.chart.canvas.parentNode.style.height = '128px'
+    this.chart.canvas.parentNode.style.width = '128px'
     return (
       <div>
         <h1>This Old Chart</h1>
-        <canvas ref={this.chartRef} height="400px" />
+        <div className="chart-container" style={divStyle}>
+          <canvas ref={this.chartRef} />
+        </div>
         <button type="button" onClick={this.startRecording}>
           {!this.state.record ? 'Record' : 'Stop'}
         </button>
