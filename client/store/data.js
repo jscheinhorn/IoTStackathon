@@ -1,3 +1,4 @@
+import Axios from 'axios'
 /**
  * ACTION TYPES
  */
@@ -6,20 +7,24 @@ const GET_DATA = 'GET_DATA'
 /**
  * INITIAL STATE
  */
-const defaultData = {'x-axis': 0, 'y-axis': 0, 'z-axis': 0}
+const defaultData = {x: 0, y: 0, z: 0, chart: 0}
 
 /**
  * ACTION CREATORS
  */
-const getData = data => ({type: GET_DATA, data})
+const getData = (data, chart) => ({type: GET_DATA, data, chart})
 
 /**
  * THUNK CREATORS
  */
-export const getDataThunk = ip => async dispatch => {
+export const getDataThunk = (ip, chartId) => async dispatch => {
   try {
-    const data = await fetch(`http://${ip}`)
-    dispatch(getData((await data.json()) || defaultData))
+    let data = await fetch(`http://${ip}`)
+    data = await data.json()
+    const chart = await Axios.put(`/api/chart/${chartId}`, data)
+    data = {data, chart}
+    dispatch(getData(data || defaultData))
+    // dispatch(getChart(chart))
   } catch (err) {
     console.error(err)
   }
@@ -33,9 +38,10 @@ export default function(state = defaultData, action) {
     case GET_DATA:
       return {
         ...state,
-        'x-axis': action.data.x,
-        'y-axis': action.data.y,
-        'z-axis': action.data.z
+        x: action.data.data.x,
+        y: action.data.data.y,
+        z: action.data.data.z,
+        chart: action.data.chart
       }
     default:
       return state
