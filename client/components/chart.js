@@ -41,7 +41,6 @@ class ChartComponent extends React.Component {
   chart = {} // What is this doing here? It's initializing a variable to hold the graph generated when initalizeChart is called.
 
   componentDidMount() {
-    this.props.addChart() // Add new chart to DB (add new table to DB to be populated with chart data)
     this.initializeChart({
       // Invokes initializeChart which creates new chart using these options:
       //
@@ -132,15 +131,13 @@ class ChartComponent extends React.Component {
   startRecording = () => {
     // eslint-disable-next-line react/no-access-state-in-setstate
     if (this.state.record) {
-      this.save()
+      this.latencyCalc()
     }
     this.setState({record: !this.state.record})
   }
 
-  save = () => {
-    console.log(
-      "That's nice that you want to save your graph, but this feature's not yet available."
-    )
+  latencyCalc = () => {
+    console.log('Calculating Latency')
     const timeDiff = this.data.labels.map((timestamp, idx) => {
       if (idx + 1 === this.data.labels.length) {
         return timestamp - this.data.labels[idx - 1]
@@ -152,13 +149,21 @@ class ChartComponent extends React.Component {
     return avgLatency
   }
 
+  save = () => {
+    let t = this.data.labels
+    let x = this.data.datasets[0].data
+    let y = this.data.datasets[1].data
+    let z = this.data.datasets[2].data
+    this.props.addChart({t, x, y, z}) // Add new chart to DB (add new table to DB to be populated with chart data)
+  }
+
   render() {
     // Check at each render if recording. getData makes an axios call to the DB
     // It updates the chart with the new data that arrived. It stores that chart in the store.
     // Storing the whole chart in the store is unneccesary because the chart gets its data from the local state.
     // See proposal within /store/data.js
     if (this.state.record) {
-      this.props.getData(this.props.ip, this.props.chart.data.id)
+      this.props.getData(this.props.ip)
     }
     const divStyle = {position: 'relative', height: '100px'}
     return (
@@ -191,8 +196,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getData: (ip, chartId) => dispatch(getDataThunk(ip, chartId)),
-  addChart: () => dispatch(addChartThunk())
+  getData: ip => dispatch(getDataThunk(ip)),
+  addChart: data => dispatch(addChartThunk(data))
 })
 
 const Chart = connect(mapStateToProps, mapDispatchToProps)(ChartComponent)
