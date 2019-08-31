@@ -4,8 +4,6 @@ import Axios from 'axios'
  * ACTION TYPES
  */
 const GET_CHART = 'GET_CHART'
-// const ADD_CHART = 'ADD_CHART'
-// const ADD_DATA = 'ADD_DATA'
 
 /**
  * INITIAL STATE
@@ -15,12 +13,12 @@ const defaultData = {id: 0}
 /**
  * ACTION CREATORS
  */
-const getChart = chart => ({type: GET_CHART, chart})
-// const addChart = chart => ({type: ADD_CHART, chart})
+const getChart = chartId => ({type: GET_CHART, chartId})
 
 /**
  * THUNK CREATORS
  */
+// Get chart by id
 export const getChartThunk = id => async dispatch => {
   try {
     const chart = await Axios.get('/api/chart', {id: id})
@@ -30,21 +28,13 @@ export const getChartThunk = id => async dispatch => {
   }
 }
 
-export const addChartThunk = () => async dispatch => {
+// Add new chart to DB
+export const addChartThunk = data => async dispatch => {
   try {
-    const chart = await Axios.put('/api/chart')
-    dispatch(getChart(chart))
-  } catch (err) {
-    console.error(err)
-  }
-}
-
-// MIGRATING THIS TO store/data.js SO UPDATES TO GRAPH AREN'T WITHOUT DATA, DEPRECATED!
-export const addDataThunk = (data, id) => async dispatch => {
-  console.log('DATA COMING IN TO ADD_DATA', data)
-  try {
-    const chart = await Axios.put(`/api/chart/${id}`, data)
-    dispatch(getChart(chart))
+    const chart = await Axios.put('/api/chart', data) // put is used to create OR update; here it is being used to create a new graph in the DB, leaving the option open to change the name of a given graph. The return is the new/existing graph.
+    let chartId = chart.data.id
+    await Axios.put(`/api/chart/${chartId}`, data) // Add this data to the DB
+    dispatch(getChart(chartId))
   } catch (err) {
     console.error(err)
   }
@@ -56,7 +46,7 @@ export const addDataThunk = (data, id) => async dispatch => {
 export default function(state = defaultData, action) {
   switch (action.type) {
     case GET_CHART:
-      return action.chart
+      return {...state, id: action.chartId}
     default:
       return state
   }

@@ -5,6 +5,8 @@
 // You may want to calibrate your accelerometer data for best results.
 // Updated July 2, 2019 by Jennifer Scheinhorn
 
+// NOTE: ALWAYS MAKE SURE YOUR CURRENT NETWORK INFORMATION IS BELOW
+
 #include <ESP8266WiFi.h>      // Enables ESP8266 to hook up to Local Area Network
 #include <WiFiClient.h>       // Makes the ESP8266 a wifi client (aka station vs. AP)
 #include <ESP8266WiFiMulti.h> // Allows the wifi client to search for the strongest network
@@ -173,7 +175,7 @@ void setup()
   }
 
   // Connect to WiFi network & Wait for connection
-  wifiMulti.addAP("YOUR_WIFI_NETWORK_NAME_1", "NETWORK_PASSWORD_1");
+  wifiMulti.addAP("WeComeInPeace!", "Dustylove_716");
   wifiMulti.addAP("YOUR_WIFI_NETWORK_NAME_2", "NETWORK_PASSWORD_2");
   wifiMulti.addAP("YOUR_WIFI_NETWORK_NAME_3", "NETWORK_PASSWORD_3");
 

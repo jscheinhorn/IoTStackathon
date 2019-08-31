@@ -42,11 +42,16 @@ router.put('/', async (req, res, next) => {
   }
 })
 
+// Get arrays of time, x, y, and z data from component/store. Convert it into array of objects that include the graphId.
+// bulkCreate accepts the array of objects
 router.put('/:id', async (req, res, next) => {
   const graphId = req.params.id
-  const {x, y, z} = req.body
+  const {time, x, y, z} = req.body
+  let data = time.map((t, idx) => {
+    return {t, x: x[idx], y: y[idx], z: z[idx], graphId}
+  })
   try {
-    await Data.create({graphId, x, y, z})
+    await Data.bulkCreate(data) // bulkCreate requires an array of objects. I only have arrays of data...
     const graph = await Graph.findByPk(graphId, {
       include: [{model: Data, required: true}]
     })

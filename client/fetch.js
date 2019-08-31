@@ -1,3 +1,4 @@
+/*
 const poll = async () => {
   const x = await fetch('http://esp8266.local')
   // console.log(await x.json())
@@ -7,3 +8,7 @@ const poll = async () => {
 setTimeout(poll, 1000)
 
 export default poll
+*/
+
+// Not using this elsewhere
+// fetch gets data from given ip
