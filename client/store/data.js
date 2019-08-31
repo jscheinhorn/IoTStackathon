@@ -19,15 +19,21 @@ const getData = (data, chart) => ({type: GET_DATA, data, chart})
  */
 export const getDataThunk = (ip, chartId) => async dispatch => {
   try {
-    let data = await fetch(`http://${ip}`)
-    data = await data.json()
-    const chart = await Axios.put(`/api/chart/${chartId}`, data)
-    data = {data, chart}
+    let data = await fetch(`http://${ip}`) // get single reading from ESP's IP address
+    data = await data.json() // Format it (have to do another await)
+    const chart = await Axios.put(`/api/chart/${chartId}`, data) // Add this data to the chart
+    data = {data, chart} // Object with current reading and most recent chart
     dispatch(getData(data || defaultData))
   } catch (err) {
     console.error(err)
   }
 }
+/* PROPOSAL: Separate getDataThunk into one IP call (await fetch and data.json)
+1. Thunk for IP call with current data
+2. Thunk to save the data as new chart in DB
+Require: new action creator for just data and just chart?
+Should reducer still return x,y,z, and chart? Chart may only arise once saved, do we need a current chart?
+*/
 
 /**
  * REDUCER

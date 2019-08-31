@@ -4,8 +4,6 @@ import Axios from 'axios'
  * ACTION TYPES
  */
 const GET_CHART = 'GET_CHART'
-// const ADD_CHART = 'ADD_CHART'
-// const ADD_DATA = 'ADD_DATA'
 
 /**
  * INITIAL STATE
@@ -16,7 +14,6 @@ const defaultData = {id: 0}
  * ACTION CREATORS
  */
 const getChart = chart => ({type: GET_CHART, chart})
-// const addChart = chart => ({type: ADD_CHART, chart})
 
 /**
  * THUNK CREATORS
@@ -30,9 +27,10 @@ export const getChartThunk = id => async dispatch => {
   }
 }
 
+// Add new chart to DB
 export const addChartThunk = () => async dispatch => {
   try {
-    const chart = await Axios.put('/api/chart')
+    const chart = await Axios.put('/api/chart') // put is used to create OR update; here it is being used to create a new graph, leaving the option open to change the name of a given graph. The retun is the new graph.
     dispatch(getChart(chart))
   } catch (err) {
     console.error(err)
