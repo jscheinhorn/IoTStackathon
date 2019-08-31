@@ -21,7 +21,6 @@ export const getDataThunk = ip => async dispatch => {
   try {
     let data = await fetch(`http://${ip}`) // get single reading from ESP's IP address
     data = await data.json() // Format it (have to do another await)
-    // const chart = await Axios.put(`/api/chart/${chartId}`, data) // Add this data to the DB
     data = {data} // Object with current reading and most recent chart
     dispatch(getData(data || defaultData))
   } catch (err) {

@@ -150,11 +150,11 @@ class ChartComponent extends React.Component {
   }
 
   save = () => {
-    let t = this.data.labels
+    let time = this.data.labels
     let x = this.data.datasets[0].data
     let y = this.data.datasets[1].data
     let z = this.data.datasets[2].data
-    this.props.addChart({t, x, y, z}) // Add new chart to DB (add new table to DB to be populated with chart data)
+    this.props.addChart({time, x, y, z}) // Add new chart to DB (add new table to DB to be populated with chart data)
   }
 
   render() {
