@@ -35,8 +35,7 @@ export const getChartThunk = id => async dispatch => {
 export const getChartsThunk = () => async dispatch => {
   try {
     const chartsArray = await Axios.get('/api/chart')
-    console.log({chartsArray})
-    dispatch(getCharts(chartsArray))
+    dispatch(getCharts(chartsArray.data))
   } catch (err) {
     console.error(err)
   }
@@ -62,7 +61,7 @@ export default function(state = defaultData, action) {
     case GET_CHARTID:
       return {...state, id: action.chartId}
     case GET_CHART:
-      return {...state, id: action.chart}
+      return {...state, chart: action.chart}
     case GET_CHARTS:
       return {...state, chartsArray: action.chartsArray}
     default:

@@ -12,8 +12,21 @@ class GraphsComponent extends Component {
   render() {
     return (
       <div>
-        <h1>I Exist</h1>
-        <ul>{}</ul>
+        <h1>Previous Graph Data</h1>
+        <ul>
+          {this.props.charts
+            ? this.props.charts.map(chart => {
+                return (
+                  <div key={chart.id}>
+                    <span>
+                      <li>{chart.id}</li>
+                      <li>{chart.date}</li>
+                    </span>
+                  </div>
+                )
+              })
+            : null}
+        </ul>
       </div>
     )
   }
@@ -24,7 +37,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  charts: state.chartsArray
+  charts: state.chart.chartsArray
 })
 
 const Graphs = connect(mapStateToProps, mapDispatchToProps)(GraphsComponent)
