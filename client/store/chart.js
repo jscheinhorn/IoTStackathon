@@ -25,7 +25,7 @@ const getCharts = chartsArray => ({type: GET_CHARTS, chartsArray})
 // Get chart by id
 export const getChartThunk = id => async dispatch => {
   try {
-    const chart = await Axios.get('/api/chart', {id: id})
+    const chart = await Axios.get(`/api/chart/${id}`)
     dispatch(getChart(chart))
   } catch (err) {
     console.error(err)

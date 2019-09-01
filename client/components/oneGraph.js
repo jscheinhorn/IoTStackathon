@@ -1,31 +1,33 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getChartsThunk} from '../store'
+import {getChartThunk} from '../store'
 
 class OneGraphComponent extends Component {
+  constructor(props) {
+    super(props)
+    this.graphId = props.match.params.graphId
+  }
   componentDidMount() {
-    console.log('At single graph')
+    this.props.getGraph(this.graphId)
   }
 
   render() {
-    let graphId = this.props.match.params.graphId
-    console.log({graphId})
     return (
       <div>
-        <h1>{`Graph ${graphId} Data`}</h1>
+        <h1>{`Graph ${this.graphId} Data`}</h1>
       </div>
     )
   }
 }
 
-// const mapDispatchToProps = dispatch => ({
-//   getGraphs: () => dispatch(getChartsThunk())
-// })
+const mapDispatchToProps = dispatch => ({
+  getGraph: graphId => dispatch(getChartThunk(graphId))
+})
 
 // const mapStateToProps = state => ({
 //   charts: state.chart.chartsArray
 // })
 
-// const Graph = connect(mapStateToProps, mapDispatchToProps)(OneGraphComponent)
+const Graph = connect(null, mapDispatchToProps)(OneGraphComponent)
 
-export default OneGraphComponent
+export default Graph
