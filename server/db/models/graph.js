@@ -4,12 +4,10 @@ const db = require('../db')
 const Graph = db.define('graph', {
   date: {
     type: Sequelize.DATE,
-    defaultValue: new Date()
+    defaultValue: Sequelize.NOW // Makes all the graphs for that session (I think) have the same stamp
   },
   title: {
     type: Sequelize.STRING,
-
-    // `Graph ${this.getDataValue('id')}`
 
     get() {
       return () => this.getDataValue('id')

@@ -10,7 +10,7 @@ const GET_CHARTS = 'GET_CHARTS'
 /**
  * INITIAL STATE
  */
-const defaultData = {id: 0, charts: [], chart: []}
+const defaultData = {id: 0, chartsArray: [], chart: []}
 
 /**
  * ACTION CREATORS

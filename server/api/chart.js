@@ -4,8 +4,8 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const graph = await Graph.findAll()
-    res.json(graph)
+    const graphs = await Graph.findAll()
+    res.json(graphs)
   } catch (err) {
     next(err)
   }
