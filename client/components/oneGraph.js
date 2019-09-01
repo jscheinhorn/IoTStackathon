@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Chart} from 'chart.js' // chart.js refers not to this file, but to the library
+import {Chart} from 'chart.js' // chart.js refers to the library
 import {getChartThunk} from '../store'
+import {CSVLink} from 'react-csv'
 
 // For notes on chart.js (library) specific code, see chart.js component.
 class OneGraphComponent extends Component {
@@ -9,6 +10,9 @@ class OneGraphComponent extends Component {
     super(props)
     this.graphId = props.match.params.graphId
     this.chartRef = React.createRef()
+    this.state = {
+      exportArr: []
+    }
     this.chart = {}
     this.data = {
       labels: [],
@@ -100,6 +104,28 @@ class OneGraphComponent extends Component {
     this.chart = new Chart(ctx, options)
   }
 
+  exportCSV = () => {
+    let exportArr1 = [
+      ['Graph_ID', `${this.props.chart.data.id}`],
+      [
+        'Date',
+        `${this.props.chart.data.createdAt.substring(0, 10)}`,
+        'Time (UTC)',
+        `${this.props.chart.data.createdAt.substring(
+          11,
+          `${this.props.chart.data.createdAt.length - 1}`
+        )}`
+      ],
+      ['t (ms)', 'x (g)', 'y (g)', 'z (g)']
+    ]
+    this.props.chart.data.data.forEach(dataPt => {
+      exportArr1.push([dataPt.t, dataPt.x, dataPt.y, dataPt.z])
+    })
+    this.setState({exportArr: exportArr1}, () => {
+      this.csvLink.link.click()
+    })
+  }
+
   render() {
     const divStyle = {position: 'relative', height: '100px'}
     if (this.props.chart.data && !this.data.labels.length) {
@@ -117,9 +143,26 @@ class OneGraphComponent extends Component {
         <h1>{`Graph ${this.graphId} Data`}</h1>
         <div className="chart-container" style={divStyle}>
           <canvas ref={this.chartRef} height="110px" />
-          <button type="button" onClick={() => console.log('Button clicked')}>
-            Download CSV
-          </button>
+          {console.log('props.chart: ', this.props.chart)}
+
+          {Object.keys(this.props.chart).length && this.props.chart.chart ? (
+            <div>
+              <button type="button" onClick={this.exportCSV}>
+                Download CSV
+              </button>
+              <CSVLink
+                className="hidden"
+                data={this.state.exportArr}
+                filename={`Graph_${
+                  this.graphId
+                }_${this.props.chart.data.createdAt.substring(0, 10)}.csv`}
+                ref={r => (this.csvLink = r)}
+                target="_blank"
+              />
+            </div>
+          ) : (
+            <div>There is no data available for this graph ID</div>
+          )}
         </div>
       </div>
     )

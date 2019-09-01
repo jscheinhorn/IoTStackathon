@@ -13,18 +13,20 @@ class GraphsComponent extends Component {
       <div>
         <h1>Previous Graph Data</h1>
         <ol>
-          {this.props.charts
-            ? this.props.charts.map(chart => {
-                let date = chart.date.substring(0, 10)
-                return (
-                  <div key={chart.id}>
-                    <Link to={`/graphs/${chart.id}`}>
-                      <li>{date}</li>
-                    </Link>
-                  </div>
-                )
-              })
-            : null}
+          {this.props.charts.length ? (
+            this.props.charts.map(chart => {
+              let date = chart.date.substring(0, 10)
+              return (
+                <div key={chart.id}>
+                  <Link to={`/graphs/${chart.id}`}>
+                    <li>{date}</li>
+                  </Link>
+                </div>
+              )
+            })
+          ) : (
+            <div>There are no graphs currently available</div>
+          )}
         </ol>
       </div>
     )
