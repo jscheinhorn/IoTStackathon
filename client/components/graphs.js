@@ -16,7 +16,6 @@ class GraphsComponent extends Component {
           {this.props.charts
             ? this.props.charts.map(chart => {
                 let date = chart.date.substring(0, 10)
-                console.log(typeof date)
                 return (
                   <div key={chart.id}>
                     <Link to={`/graphs/${chart.id}`}>

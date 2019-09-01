@@ -4,12 +4,8 @@ const db = require('../db')
 const Data = db.define('data', {
   t: {
     // in milliseconds
-    type: Sequelize.DATE,
-    defaultValue: new Date()
-    /* get() {
-        want to get Date from parent graph and do
-        deltaT = parent.date - new Date()
-       } */
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
   x: {
     type: Sequelize.FLOAT
