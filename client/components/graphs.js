@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {getChartsThunk} from '../store'
 
 class GraphsComponent extends Component {
-  constructor() {
-    super()
-    this.state = {some: 'thing'}
-  }
+  // constructor() {
+  // }
   componentDidMount() {
     this.props.getGraphs()
   }
@@ -13,6 +12,7 @@ class GraphsComponent extends Component {
   render() {
     return (
       <div>
+        <h1>I Exist</h1>
         <ul>{}</ul>
       </div>
     )
