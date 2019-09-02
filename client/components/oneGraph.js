@@ -11,7 +11,8 @@ class OneGraphComponent extends Component {
     this.graphId = props.match.params.graphId
     this.chartRef = React.createRef()
     this.state = {
-      exportArr: []
+      exportArr: [],
+      mount: 0
     }
     this.chart = {}
     this.data = {
@@ -44,6 +45,7 @@ class OneGraphComponent extends Component {
 
   componentDidMount() {
     this.props.getGraph(this.graphId)
+    this.setState({mount: this.state.mount + 1})
 
     this.initializeChart({
       data: this.data,
@@ -135,7 +137,10 @@ class OneGraphComponent extends Component {
         this.data.datasets[1].data.push(dataPt.y)
         this.data.datasets[2].data.push(dataPt.z)
       })
-      this.chart.update()
+
+      if (this.state.mount) {
+        this.chart.update()
+      }
     }
 
     return (
@@ -143,9 +148,7 @@ class OneGraphComponent extends Component {
         <h1>{`Graph ${this.graphId} Data`}</h1>
         <div className="chart-container" style={divStyle}>
           <canvas ref={this.chartRef} height="110px" />
-          {console.log('props.chart: ', this.props.chart)}
-
-          {Object.keys(this.props.chart).length && this.props.chart.chart ? (
+          {Object.keys(this.props.chart).length && this.props.chart.data ? (
             <div>
               <button type="button" onClick={this.exportCSV}>
                 Download CSV
@@ -161,7 +164,7 @@ class OneGraphComponent extends Component {
               />
             </div>
           ) : (
-            <div>There is no data available for this graph ID</div>
+            <b>! There is no data available for this graph ID !</b>
           )}
         </div>
       </div>
