@@ -4,8 +4,8 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const graph = await Graph.findAll()
-    res.json(graph)
+    const graphs = await Graph.findAll()
+    res.json(graphs)
   } catch (err) {
     next(err)
   }
@@ -52,10 +52,12 @@ router.put('/:id', async (req, res, next) => {
   })
   try {
     await Data.bulkCreate(data) // bulkCreate requires an array of objects. I only have arrays of data...
-    const graph = await Graph.findByPk(graphId, {
-      include: [{model: Data, required: true}]
-    })
-    res.json(graph)
+    // Use the below to access stored graphs:
+    // const graph = await Graph.findByPk(graphId, {
+    //   include: [{model: Data, required: true}]
+    // })
+    // res.json(graph)
+    res.send()
   } catch (err) {
     next(err)
   }

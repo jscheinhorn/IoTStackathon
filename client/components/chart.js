@@ -35,7 +35,7 @@ class ChartComponent extends React.Component {
       ]
     }
     this.time = Date.now() // set initial time to make timestamps
-    this.latency = 0 // to specify intervals between data points
+    this.interval = 0 // to specify intervals between data points
   }
 
   chart = {} // What is this doing here? It's initializing a variable to hold the graph generated when initalizeChart is called.
@@ -131,22 +131,22 @@ class ChartComponent extends React.Component {
   startRecording = () => {
     // eslint-disable-next-line react/no-access-state-in-setstate
     if (this.state.record) {
-      this.latencyCalc()
+      this.intervalCalc()
     }
     this.setState({record: !this.state.record})
   }
 
-  latencyCalc = () => {
-    console.log('Calculating Latency')
+  intervalCalc = () => {
+    console.log('Calculating Interval')
     const timeDiff = this.data.labels.map((timestamp, idx) => {
       if (idx + 1 === this.data.labels.length) {
         return timestamp - this.data.labels[idx - 1]
       } else return this.data.labels[idx + 1] - timestamp
     })
-    const avgLatency =
+    const avgInterval =
       timeDiff.reduce((acc, timeDelta) => acc + timeDelta, 0) / timeDiff.length
-    this.latency = avgLatency
-    return avgLatency
+    this.interval = avgInterval
+    return avgInterval
   }
 
   save = () => {
@@ -171,8 +171,8 @@ class ChartComponent extends React.Component {
         <h1>This Old Chart</h1>
         <div>
           {!this.state.record && this.data.labels.length
-            ? 'Average latency between data transmission (seconds): ' +
-              this.latency / 1000
+            ? 'Average interval between data transmission (seconds): ' +
+              this.interval / 1000
             : null}
         </div>
         <div className="chart-container" style={divStyle}>
@@ -180,9 +180,11 @@ class ChartComponent extends React.Component {
           <button type="button" onClick={this.startRecording}>
             {!this.state.record ? 'Record' : 'Stop'}
           </button>
-          <button type="button" onClick={this.save}>
-            Save
-          </button>
+          {!this.state.record && this.data.labels.length ? (
+            <button type="button" onClick={this.save}>
+              Save
+            </button>
+          ) : null}
         </div>
       </div>
     )
